@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.http import Http404
-from django.db.models import Q
+from django.db.models import Q, Count
 from .models import CarMaker, CarModel, Car, GEARBOXES
 from django.core.paginator import Paginator
 from .utils import get_pages_list
@@ -188,13 +188,23 @@ class CarModelListView(ListView):
     model = CarModel
     template_name = 'app/models_list.html'
     context_object_name = 'models'
-    paginate_by = 10
-    queryset = CarModel.objects.select_related('car_maker').all()
+    paginate_by = 30
+    queryset = CarModel.objects.select_related('car_maker').annotate(car_count=Count("cars")).all()
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['now'] = timezone.now()
+    #     return context
 
 
 class CarMakerListView(ListView):
     model = CarMaker
     template_name = 'app/makers_list.html'
     context_object_name = 'makers'
-    paginate_by = 10
-    # queryset = CarMaker.objects.all()
+    paginate_by = 30
+    queryset = CarMaker.objects.annotate(model_count=Count('car_models')).all()
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['now'] = timezone.now()
+    #     return context

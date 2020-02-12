@@ -14,6 +14,7 @@
             <div class="row">
                 <div class="col-2">Модель</div>
                 <div class="col-2">Годы производства</div>
+                <div class="col-2">Автомобилей в базе</div>
                 <div class="col">Описание</div>
 
             </div>
@@ -31,6 +32,7 @@
                         </a>
                     </div>
                     <div class="col-2">{{ model.start_production }} - {{ model.end_production }}</div>
+                    <div class="col-2">{{ model.car_count }}</div>
                     <div class="col">{{ model.descriptions }}</div>
                 </div>
             </li>
