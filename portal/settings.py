@@ -36,7 +36,7 @@ if not SECRET_KEY:
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'https://sf-d1-carrcarr.herokuapp.com/',
+    'sf-d1-carrcarr.herokuapp.com',
     'localhost',
     '127.0.0.1',
 
