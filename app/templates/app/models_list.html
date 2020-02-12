@@ -1,0 +1,42 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Каталог автомобилей{% endblock title %}
+
+{% block navbar %}{% include 'app/navbar.html' %}{% endblock navbar %}
+
+
+{% block content %}
+
+
+<div class="container mb-3">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-2">Модель</div>
+                <div class="col-2">Годы производства</div>
+                <div class="col">Описание</div>
+
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for model in models %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-2">
+                        <a href="{% url 'car_maker_url' model.car_maker.slug %}">
+                            {{ model.car_maker.name }}
+                        </a> - 
+                        <a href="{% url 'car_model_url' model.slug %}">
+                            {{ model.name }}
+                        </a>
+                    </div>
+                    <div class="col-2">{{ model.start_production }} - {{ model.end_production }}</div>
+                    <div class="col">{{ model.descriptions }}</div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock content %}

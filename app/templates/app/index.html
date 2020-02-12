@@ -1,11 +1,60 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <p>Hello!</p>
-</body>
-</html>
+{% extends 'app/base.html' %}
+
+{% block title %}Каталог автомобилей{% endblock title %}
+
+{% block navbar %}{% include 'app/navbar.html' %}{% endblock navbar %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-3 mt-4">
+        {% block filters %}{% include 'app/filters.html' %}{% endblock filters %}
+    </div>
+    <div class="col mt-4">
+        <div class="container mb-3" id="app2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col"><a href="{% url 'index_url' %}?orderby=0">Производитель</a></div>
+                        <div class="col"><a href="{% url 'index_url' %}?orderby=1">Модель</a></div>
+                        <div class="col"><a href="{% url 'index_url' %}?orderby=2">Год</a></div>
+                        <div class="col"><a href="{% url 'index_url' %}?orderby=3">Цвет</a></div>
+                        <div class="col"><a href="{% url 'index_url' %}?orderby=4">КПП</a></div>
+
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for car in car_list %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{% url 'car_maker_url' car.car_model.car_maker.slug %}">
+                                    {{ car.car_model.car_maker }}
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="{% url 'car_model_url' car.car_model.slug %}">
+                                    {{ car.car_model }}
+                                </a>
+                            </div>
+                            <div class="col">{{ car.year }}</div>
+                            <div class="col">{{ car.color }}</div>
+                            <div class="col">{{ car.get_gearbox_display }}</div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3 mt-4"></div>
+    <div class="col mt-4">
+        {% block paginator %}{% include 'app/paginator.html' %}{% endblock paginator %}
+    </div>
+</div>
+
+{% endblock content %}

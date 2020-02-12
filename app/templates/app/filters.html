@@ -1,0 +1,58 @@
+<div>
+
+  <form method="get">
+    <div class="form-group">
+      <label for="makerSelect">Фильтр по маркам</label>
+      <select multiple class="form-control" id="makerSelect" name="maker">
+        {% for maker in car_maker_list %}
+        <option value="{{ maker.car_model__car_maker__slug }}">{{ maker.car_model__car_maker__name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <label for="modelSelect">Фильтр по моделям</label>
+      <select multiple class="form-control" id="modelSelect" name="model">
+        {% for model in car_model_list %}
+        <option value="{{ model.car_model__slug }}">{{ model.car_model__name }} ({{ model.car_model__car_maker__name }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="gearboxSelect">Фильтр по КПП</label>
+      <select multiple class="form-control" id="gearboxSelect" name="gearbox">
+        {% for key, value in gearbox_list.items %}
+        <option value="{{ key }}">{{ value }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="yearlSelect">Фильтр по году</label>
+      <select multiple class="form-control" id="yearlSelect" name="year">
+        {% for year in year_list %}
+        <option value="{{ year.year }}">{{ year.year }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="colorSelect">Фильтр по цвету</label>
+      <select multiple class="form-control" id="colorlSelect" name="color">
+        {% for color in color_list %}
+        <option value="{{ color.color }}">{{ color.color }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="resetFilters" name="reset">
+      <label class="form-check-label" for="resetFilters">Сбросить фильтр</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Применить фильтр</button>
+  </form>
+
+</div>

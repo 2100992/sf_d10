@@ -1,6 +1,7 @@
 from os import name
 from django.db import models
 from .utils import make_unique_slug
+from random import choice, randint
 
 # Create your models here.
 
@@ -9,6 +10,22 @@ GEARBOXES = [
     (1, 'механика'),
     (2, 'автомат'),
     (3, 'робот'),
+    (4, 'вариатор'),
+    (5, 'редуктор'),
+]
+
+COLORS = [
+    'Чёрный',
+    'Белый',
+    'Зеленый',
+    'Красный',
+    'Синий',
+    'Жёлтый',
+    'Фиолетовый',
+    'Серебрисный',
+    'Серый',
+    'Золотистый',
+
 ]
 
 
@@ -43,7 +60,7 @@ class CarModel(models.Model):
     slug = models.SlugField(default='_', max_length=150, unique=True)
     descriptions = models.TextField(null=True, blank=True)
     start_production = models.SmallIntegerField(null=True, blank=True)
-    end_producrion = models.SmallIntegerField(null=True, blank=True)
+    end_production = models.SmallIntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -73,3 +90,23 @@ class Car(models.Model):
 
     def __str__(self):
         return (self.car_model.name + ' ' + self.color + ' ' + str(self.year))
+    
+    def cars_factory(self, number_of_car):
+        '''
+        Генератор случайных автомобилей
+        '''
+        car_models = CarModel.objects.all()
+        for _ in range(number_of_car):
+            car_model = choice(car_models)
+            car = Car()
+            car.car_model = car_model
+            car.color = choice(COLORS)
+            car.gearbox = choice(GEARBOXES[1:4])[0]
+            if not car_model.start_production:
+                continue
+            if car_model.end_production:
+                car.year = randint(car_model.start_production, car_model.end_production)
+            else:
+                car.year = randint(car_model.start_production, 2020) # Добавить вычисление текущего года
+            car.save()
+        return f'Создано {number_of_car} авто'
