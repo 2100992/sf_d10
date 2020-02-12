@@ -66,7 +66,7 @@ class Index(View):
             '4': 'gearbox',
         }
 
-        orderby_list = request.session.get('orderby')
+        orderby_list = request.session.get('orderby', [])
         if len(orderby_list) > 0:
             order_by = ORDER_BY.get(orderby_list[0], ORDER_BY['0'])
         else:
