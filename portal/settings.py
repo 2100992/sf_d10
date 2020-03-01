@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import dj_database_url
 
+SECRET_KEY = None
+DATABASE_URL = None
+
+if os.path.isfile('portal/secrets.py'):
+    from portal.secrets import SECRET_KEY, DATABASE_URL
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,15 +27,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-try:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-except:
-    print('Error getting SECRET_KEY from environ!!!')
-    SECRET_KEY = None
 
 if not SECRET_KEY:
-    SECRET_KEY = 'n92m_qx1c0r!a099750f)az8iasqp+cqi1k%d7#=ja=6#(o7%)'
-    print(f'temporary SECRET_KEY = {SECRET_KEY}')
+    try:
+        SECRET_KEY = os.environ.get('SECRET_KEY')
+    except:
+        print('Error getting SECRET_KEY from environ!!!')
+        SECRET_KEY = 'n92m_qx1c0r!a099750f)az8iasqp+cqi1k%d7#=ja=6#(o7%)'
+        print(f'temporary SECRET_KEY = {SECRET_KEY}')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -95,10 +100,11 @@ WSGI_APPLICATION = 'portal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-try:
-    DATABASE_URL = os.environ.get('DATABASE_URL')
-except:
-    DATABASE_URL = None
+if not DATABASE_URL:
+    try:
+        DATABASE_URL = os.environ.get('DATABASE_URL')
+    except:
+        DATABASE_URL = None
 
 if DATABASE_URL:
     DATABASES = {
