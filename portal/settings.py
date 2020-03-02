@@ -33,7 +33,7 @@ if not SECRET_KEY:
         SECRET_KEY = os.environ.get('SECRET_KEY')
     except:
         print('Error getting SECRET_KEY from environ!!!')
-        SECRET_KEY = 'n92m_qx1c0r!a099750f)az8iasqp+cqi1k%d7#=ja=6#(o7%)'
+        SECRET_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
         print(f'temporary SECRET_KEY = {SECRET_KEY}')
 
 
